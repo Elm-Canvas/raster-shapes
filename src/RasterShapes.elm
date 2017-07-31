@@ -5,6 +5,7 @@ module RasterShapes
         , line
         , bezier
         , rectangle
+        , rectangle2
         , ellipse
         , circle
         )
@@ -16,7 +17,7 @@ module RasterShapes
 @docs Position, Size
 
 # Shape calculators
-@docs line, bezier, rectangle, ellipse, circle
+@docs line, bezier, rectangle, rectangle2, ellipse, circle
 -}
 
 
@@ -224,21 +225,73 @@ calcBezier seg i =
 -}
 
 rectangle : Size -> Position -> List Position
-rectangle { width, height } { x, y }=
-    let
-        x1 = 
-            x + width
+rectangle { width, height } p =
+    case (width, height) of
+        (0, 0) ->
+            []
 
-        y1 =
-            y + height           
-    in
-        List.concat
-            [ line (Position x y) (Position (x1 - 1) y)
-            , line (Position x y) (Position x (y1 - 1))
-            , line (Position x1 y1) (Position x y1)
-            , line (Position x1 y1) (Position x1 y)
-            ]
-            
+        _ ->
+            rectangle2
+                p
+                (Position (p.x + width) (p.y + height))
+
+
+{-| `Rectangle2` is just like `Rectangle`, except it takes two positions as parameters rather than a position and a size
+-}
+rectangle2 : Position -> Position -> List Position
+rectangle2 p q =
+    let
+        (xLeft, xRight) =
+            if p.x == (min p.x q.x) then
+                (p.x, q.x)
+            else
+                (q.x, p.x)
+
+        (yTop, yBottom) =
+            if p.y == (min p.y q.y) then
+                (p.y, q.y)
+            else
+                (q.y, p.y)
+    in 
+        case (xLeft - xRight, yTop - yBottom) of
+            (0, 0) ->
+                [ p ]
+
+            (1, 1) ->
+                [ Position xLeft yTop
+                , Position xLeft yBottom
+                , Position xRight yTop
+                , Position xRight yBottom
+                ]
+
+            (1, _) ->
+                line 
+                    (Position xLeft yTop) 
+                    (Position xLeft yBottom)
+
+
+            (_ , 1) ->
+                line 
+                    (Position xLeft yTop) 
+                    (Position xRight yTop)
+
+
+            (width, height) ->
+                [ line 
+                    (Position xLeft yTop) 
+                    (Position (xRight - 1) yTop)
+                , line 
+                    (Position xRight yTop) 
+                    (Position xRight (yBottom - 1))
+                , line 
+                    (Position xRight yBottom) 
+                    (Position (xLeft + 1) (yBottom))
+                , line 
+                    (Position xLeft yBottom) 
+                    (Position xLeft (yTop + 1))
+                ]
+                    |> List.concat
+
 
 
 -- LINE --

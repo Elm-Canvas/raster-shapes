@@ -1,7 +1,7 @@
 {
-    "version": "1.0.0",
+    "version": "1.1.0",
     "summary": "Pixelated shape drawing using the Bresenham algorithms",
-    "repository": "https://github.com/elm-canvas/raster-shapes.git",
+    "repository": "https://github.com/Elm-Canvas/raster-shapes.git",
     "license": "BSD3",
     "source-directories": [
         "src"
