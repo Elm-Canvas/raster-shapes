@@ -264,13 +264,13 @@ rectangle2 p q =
                 , Position xRight yBottom
                 ]
 
-            (1, _) ->
+            (0, _) ->
                 line 
                     (Position xLeft yTop) 
                     (Position xLeft yBottom)
 
 
-            (_ , 1) ->
+            (_ , 0) ->
                 line 
                     (Position xLeft yTop) 
                     (Position xRight yTop)
