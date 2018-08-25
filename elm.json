@@ -3,7 +3,7 @@
     "name": "Elm-Canvas/raster-shapes",
     "summary": "Pixelated shape drawing using the Bresenham algorithms",
     "license": "BSD-3-Clause",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "exposed-modules": [
         "RasterShapes"
     ],
