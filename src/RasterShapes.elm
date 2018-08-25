@@ -185,7 +185,7 @@ bezierLoop seg i p0 p1 p2 p3 positions =
 calcBezierPoint : Int -> Int -> ( Float, Float ) -> ( Float, Float ) -> ( Float, Float ) -> ( Float, Float ) -> Position
 calcBezierPoint seg i ( p0x, p0y ) ( p1x, p1y ) ( p2x, p2y ) ( p3x, p3y ) =
     let
-        ( a, b, c, d ) =
+        { a, b, c, d } =
             calcBezier seg i
     in
         Position
@@ -193,7 +193,10 @@ calcBezierPoint seg i ( p0x, p0y ) ( p1x, p1y ) ( p2x, p2y ) ( p3x, p3y ) =
             (floor (a * p0y + b * p1y + c * p2y + d * p3y))
 
 
-calcBezier : Int -> Int -> ( Float, Float, Float, Float )
+type alias CalcBezierResult =
+    { a: Float, b: Float, c : Float, d : Float }
+
+calcBezier : Int -> Int -> CalcBezierResult
 calcBezier seg i =
     let
         a =
@@ -202,11 +205,11 @@ calcBezier seg i =
         b =
             1 - a
     in
-        ( b ^ 3
-        , 3 * b ^ 2 * a
-        , 3 * a ^ 2 * b
-        , a ^ 3
-        )
+    CalcBezierResult
+        ( b ^ 3)
+        ( 3 * b ^ 2 * a)
+        ( 3 * a ^ 2 * b)
+        ( a ^ 3)
 
 
 
