@@ -160,7 +160,7 @@ bezier resolution p0 p1 p2 p3 =
                 (toFloat p3.x, toFloat p3.y)
                 []
     in
-        List.map2 (,) positions (List.drop 1 positions)
+        List.map2 Tuple.pair positions (List.drop 1 positions)
             |> List.map applyLine
             |> List.concat
 
